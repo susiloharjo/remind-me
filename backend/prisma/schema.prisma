@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Reminder {
+  id                 String   @id @default(uuid())
+  title              String
+  description        String?
+  due_date           DateTime
+  reminder_days_before Int[]
+  status             ReminderStatus @default(ACTIVE)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+  logs               ReminderLog[]
+}
+
+model ReminderLog {
+  id          String   @id @default(uuid())
+  reminder_id String
+  reminder    Reminder @relation(fields: [reminder_id], references: [id])
+  sent_at     DateTime @default(now())
+  status      LogStatus
+  message     String?
+}
+
+enum ReminderStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum LogStatus {
+  SENT
+  FAILED
+}
