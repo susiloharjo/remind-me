@@ -90,19 +90,32 @@ export class AppComponent implements OnInit {
   private checkOverdue() {
     this.reminderService.getReminders().subscribe(reminders => {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Normalize 'now' to start of today
+      today.setHours(0, 0, 0, 0);
 
-      // Filter: Active AND Due Date is strictly BEFORE today
       this.overdueReminders = reminders.filter(r => {
         if (r.status !== 'ACTIVE') return false;
 
         const due = new Date(r.due_date);
-        due.setHours(0, 0, 0, 0); // Normalize due date to ignore time
+        due.setHours(0, 0, 0, 0);
 
-        return due.getTime() < today.getTime();
+        const diffTime = due.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        // 1. Overdue
+        if (diffDays < 0) return true;
+
+        // 2. Due Today
+        if (diffDays === 0) return true;
+
+        // 3. Within Remind Before window (e.g. 3 days left, remind 7 days before -> 3 <= 7 -> Show)
+        if (r.reminder_days_before && r.reminder_days_before.some(days => diffDays <= days)) {
+          return true;
+        }
+
+        return false;
       });
 
-      this.cd.detectChanges(); // Force update
+      this.cd.detectChanges();
     });
   }
 }

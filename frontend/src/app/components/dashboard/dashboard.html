@@ -26,6 +26,7 @@
           <th class="col-checkbox"><input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)"></th>
           <th>Title</th>
           <th>Due Date</th>
+          <th>Remind Before</th>
           <th>Days Left</th>
           <th>Status</th>
           <th class="col-action">Action</th>
@@ -37,6 +38,7 @@
               (change)="toggleSelection(reminder.id)"></td>
           <td class="cell-primary">{{ reminder.title }}</td>
           <td>{{ reminder.due_date | date:'yyyy-MM-dd' }}</td>
+          <td>{{ reminder.reminder_days_before.join(', ') }} Days</td>
           <td>
             <span class="days-text" [ngClass]="getDaysClass(reminder)">
               {{ getDaysRemaining(reminder.due_date) }} Days
