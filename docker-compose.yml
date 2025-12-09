@@ -19,6 +19,7 @@ services:
   backend:
     build: ./backend
     container_name: remind-me-backend
+    command: sh -c "npx prisma migrate deploy && npm start"
     environment:
       DATABASE_URL: postgresql://admin:remindme.1234@postgres:5432/remind_me
       PORT: 3000
