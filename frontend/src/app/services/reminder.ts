@@ -15,7 +15,7 @@ export interface Reminder {
   providedIn: 'root'
 })
 export class ReminderService {
-  private apiUrl = 'http://localhost:3016/api/reminders';
+  private apiUrl = '/api/reminders';
 
   constructor(private http: HttpClient) { }
 

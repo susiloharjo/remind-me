@@ -5,7 +5,7 @@ services:
     container_name: remind-me-postgres
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: remindme.1234
       POSTGRES_DB: remind_me
     # Ports removed to not expose to host machine
     # ports:
@@ -20,7 +20,7 @@ services:
     build: ./backend
     container_name: remind-me-backend
     environment:
-      DATABASE_URL: postgresql://admin:password@postgres:5432/remind_me
+      DATABASE_URL: postgresql://admin:remindme.1234@postgres:5432/remind_me
       PORT: 3000
     ports:
       - "3016:3000"
