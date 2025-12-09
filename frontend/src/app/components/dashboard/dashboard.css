@@ -1,3 +1,250 @@
-.dashboard-container {
-  padding: 20px;
+.fiori-container {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px #e5e5e5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Toolbar - Fiori Style */
+.toolbar {
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #fff;
+  gap: 1rem;
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #bfbfbf;
+  border-radius: 4px;
+  background: #fff;
+  padding: 0 0.5rem;
+}
+
+.search-icon {
+  color: #6a6a6a;
+  font-size: 0.875rem;
+}
+
+.search-input {
+  border: none;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8125rem;
+  width: 180px;
+  outline: none;
+  background: transparent;
+}
+
+.search-input::placeholder {
+  color: #6a6a6a;
+}
+
+.actions-group {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.btn-action {
+  background: transparent;
+  border: none;
+  color: #0064d9;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-action:hover {
+  background-color: #e5f0ff;
+}
+
+.btn-action.primary {
+  border: 1px solid #0064d9;
+}
+
+.separator {
+  width: 1px;
+  height: 18px;
+  background-color: #d9d9d9;
+  margin: 0 0.25rem;
+}
+
+.btn-icon-only {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.4rem;
+  color: #0064d9;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.btn-icon-only:hover {
+  background-color: #e5f0ff;
+  border-radius: 4px;
+}
+
+.dropdown-arrow {
+  font-size: 0.625rem;
+  color: #6a6a6a;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+.fiori-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  color: #32363a;
+}
+
+.fiori-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background-color: #fafafa;
+  color: #32363a;
+  font-weight: 400;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.fiori-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.table-row:hover {
+  background-color: #f6f6f6;
+}
+
+.col-checkbox {
+  width: 40px;
+  text-align: center;
+}
+
+.col-action {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cell-primary {
+  font-weight: 400;
+  color: #0064d9;
+  cursor: pointer;
+}
+
+.cell-primary:hover {
+  text-decoration: underline;
+}
+
+/* Status Pills - Fiori Colors */
+.status-pill {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  display: inline-block;
+}
+
+.status-active {
+  background-color: #ebf5ff;
+  color: #0064d9;
+}
+
+.status-completed {
+  background-color: #f1faf3;
+  color: #256f3a;
+}
+
+.status-cancelled,
+.status-overdue {
+  background-color: #ffebeb;
+  color: #bb0000;
+}
+
+.status-urgent {
+  background-color: #fff4e5;
+  color: #df6e00;
+}
+
+.category-badge {
+  background-color: #f0f0f0;
+  color: #32363a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.days-text {
+  font-weight: 400;
+}
+
+.text-danger {
+  color: #bb0000 !important;
+}
+
+.btn-icon-sm {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #0064d9;
+  margin: 0 0.375rem;
+  font-size: 1rem;
+  padding: 0.25rem;
+}
+
+.btn-icon-sm:hover {
+  color: #0054b9;
+}
+
+/* Pagination - Fiori Style */
+.pagination-bar {
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  color: #6a6a6a;
+  font-size: 0.8125rem;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.btn-page {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #bfbfbf;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #32363a;
+  font-size: 0.8125rem;
+}
+
+.btn-page.active {
+  background-color: #0064d9;
+  color: white;
+  border-color: #0064d9;
+}
+
+.btn-page:disabled {
+  background-color: #f5f5f5;
+  color: #bfbfbf;
+  cursor: default;
+  border-color: #d9d9d9;
 }

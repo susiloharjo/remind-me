@@ -1,6 +1,74 @@
-<div class="dashboard-container">
-  <h2>Reminders</h2>
-  <div class="reminder-list">
-    <p>No reminders found.</p>
+<div class="fiori-container">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-bar">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" placeholder="Search" class="search-input">
+    </div>
+    <div class="actions-group">
+      <button class="btn-action primary" (click)="onCreate()">Create</button>
+      <button class="btn-action" [disabled]="selectedIds.size !== 1"
+        (click)="selectedIds.size === 1 ? onEdit(getSelectedReminder()) : null">Edit</button>
+      <button class="btn-action" [disabled]="selectedIds.size === 0" (click)="deleteSelected()">Delete</button>
+      <div class="separator"></div>
+      <button class="btn-action" (click)="onImport()">
+        <i class="bi bi-upload"></i> Import
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Area -->
+  <div class="table-container">
+    <table class="fiori-table">
+      <thead>
+        <tr>
+          <th class="col-checkbox"><input type="checkbox" [checked]="allSelected" (change)="toggleAll($event)"></th>
+          <th>Title</th>
+          <th>Due Date</th>
+          <th>Days Left</th>
+          <th>Status</th>
+          <th class="col-action">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reminder of paginatedReminders" class="table-row">
+          <td class="col-checkbox"><input type="checkbox" [checked]="isSelected(reminder.id)"
+              (change)="toggleSelection(reminder.id)"></td>
+          <td class="cell-primary">{{ reminder.title }}</td>
+          <td>{{ reminder.due_date | date:'yyyy-MM-dd' }}</td>
+          <td>
+            <span class="days-text" [ngClass]="getDaysClass(reminder)">
+              {{ getDaysRemaining(reminder.due_date) }} Days
+            </span>
+          </td>
+          <td>
+            <span class="status-pill" [ngClass]="getStatusClass(reminder)">
+              {{ reminder.status | titlecase }}
+            </span>
+          </td>
+          <td class="col-action">
+            <button class="btn-icon-sm" title="Edit" (click)="onEdit(reminder)"><i class="bi bi-pencil"></i></button>
+            <button class="btn-icon-sm" title="Delete" (click)="onDelete(reminder)"><i class="bi bi-trash"></i></button>
+            <button class="btn-icon-sm" title="Details"><i class="bi bi-chevron-right"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-bar">
+    <span class="showing-text">Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ (currentPage * itemsPerPage) >
+      reminders.length ? reminders.length : (currentPage * itemsPerPage) }} of {{ reminders.length }} results</span>
+    <div class="pagination-controls">
+      <button class="btn-page" [disabled]="currentPage === 1" (click)="prevPage()">Previous</button>
+
+      <button *ngFor="let page of pages" class="btn-page" [class.active]="page === currentPage"
+        (click)="goToPage(page)">
+        {{ page }}
+      </button>
+
+      <button class="btn-page" [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
+    </div>
   </div>
 </div>

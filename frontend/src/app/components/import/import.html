@@ -1,4 +1,27 @@
 <div class="import-container">
-    <h2>Import Reminders</h2>
-    <input type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" />
+    <div class="drop-zone" [class.active]="dragging" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)">
+        <i class="bi bi-file-earmark-spreadsheet" style="font-size: 3rem; color: #0064d9;"></i>
+        <p class="drop-text" *ngIf="!selectedFile">
+            Drag & Drop Excel file here or
+            <label for="fileInput" class="browse-link">browse</label>
+        </p>
+        <div class="file-info" *ngIf="selectedFile">
+            <span class="file-name">{{ selectedFile.name }}</span>
+            <button class="btn-remove" (click)="selectedFile = null"><i class="bi bi-x"></i></button>
+        </div>
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx, .xls" hidden>
+
+        <div class="template-link">
+            <a href="javascript:void(0)" (click)="downloadTemplate()">
+                <i class="bi bi-download"></i> Download Template
+            </a>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-primary" [disabled]="!selectedFile" (click)="onUpload()">
+            Upload & Import
+        </button>
+    </div>
 </div>

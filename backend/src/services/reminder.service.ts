@@ -45,4 +45,12 @@ export class ReminderService {
             where: { id },
         });
     }
+
+    async deleteReminders(ids: string[]): Promise<void> {
+        await prisma.reminder.deleteMany({
+            where: {
+                id: { in: ids }
+            }
+        });
+    }
 }

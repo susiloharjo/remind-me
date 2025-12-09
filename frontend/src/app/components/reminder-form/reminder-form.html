@@ -1,1 +1,55 @@
-<p>reminder-form works!</p>
+<div class="form-container">
+    <form (ngSubmit)="onSubmit()" class="reminder-form">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" [(ngModel)]="title" name="title" placeholder="e.g. Domain Renewal" required
+                class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label for="dueDate">Due Date</label>
+            <input type="date" id="dueDate" [(ngModel)]="dueDate" name="dueDate" required class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description (Optional)</label>
+            <textarea id="description" [(ngModel)]="description" name="description" rows="3"
+                placeholder="Add details..." class="form-input textarea"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="reminderDays">Remind me (days before due date)</label>
+            <input type="number" id="reminderDays" [(ngModel)]="reminderDays" name="reminderDays" placeholder="e.g. 7"
+                min="1" class="form-input">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group switch-group">
+                <label>Status</label>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="isActive" [(ngModel)]="isActive" name="isActive">
+                    <label for="isActive" class="toggle-label">
+                        <span class="toggle-inner"></span>
+                        <span class="toggle-switch-label">{{ isActive ? 'Active' : 'Inactive' }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group switch-group">
+                <label>Recurrence</label>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="isRecurring" [(ngModel)]="isRecurring" name="isRecurring">
+                    <label for="isRecurring" class="toggle-label">
+                        <span class="toggle-inner"></span>
+                        <span class="toggle-switch-label">{{ isRecurring ? 'Recurring' : 'One-time' }}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+            <button type="submit" class="btn-submit">Create Reminder</button>
+        </div>
+    </form>
+</div>
