@@ -4,7 +4,7 @@
         <span>Remind Me</span>
     </div>
     <div class="actions">
-        <div class="notification-container">
+        <div class="notification-container" #dropdownContainer>
             <button class="btn-icon" (click)="onAlertClick()" title="Notifications">
                 <i class="bi bi-bell"></i>
                 <span class="badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>

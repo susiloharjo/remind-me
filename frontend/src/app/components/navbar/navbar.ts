@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Reminder } from '../../services/reminder';
 
@@ -15,7 +15,16 @@ export class NavbarComponent {
     @Output() alertClicked = new EventEmitter<void>();
     @Output() reminderClicked = new EventEmitter<Reminder>();
 
+    @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;
+
     showDropdown = false;
+
+    @HostListener('document:click', ['$event'])
+    clickout(event: Event) {
+        if (this.showDropdown && this.dropdownContainer && !this.dropdownContainer.nativeElement.contains(event.target)) {
+            this.showDropdown = false;
+        }
+    }
 
     onAlertClick() {
         this.showDropdown = !this.showDropdown;

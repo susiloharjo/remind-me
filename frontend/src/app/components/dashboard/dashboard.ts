@@ -1,16 +1,19 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ReminderService, Reminder } from '../../services/reminder';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './dashboard.html',
     styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent implements OnInit {
     reminders: Reminder[] = [];
+    filteredReminders: Reminder[] = [];
+    searchTerm: string = '';
 
     @Output() createClicked = new EventEmitter<void>();
     @Output() importClicked = new EventEmitter<void>();
@@ -48,8 +51,26 @@ export class DashboardComponent implements OnInit {
     loadReminders() {
         this.reminderService.getReminders().subscribe(data => {
             this.reminders = data;
+            this.filterReminders();
             this.cd.detectChanges();
         });
+    }
+
+    filterReminders() {
+        if (!this.searchTerm || !this.searchTerm.trim()) {
+            this.filteredReminders = [...this.reminders];
+        } else {
+            const term = this.searchTerm.toLowerCase().trim();
+            this.filteredReminders = this.reminders.filter(r =>
+                r.title.toLowerCase().includes(term)
+            );
+        }
+        this.currentPage = 1; // Reset to first page on search
+        this.cd.detectChanges();
+    }
+
+    onSearch() {
+        this.filterReminders();
     }
 
     // Pagination
@@ -58,11 +79,11 @@ export class DashboardComponent implements OnInit {
 
     get paginatedReminders(): Reminder[] {
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-        return this.reminders.slice(startIndex, startIndex + this.itemsPerPage);
+        return this.filteredReminders.slice(startIndex, startIndex + this.itemsPerPage);
     }
 
     get totalPages(): number {
-        return Math.ceil(this.reminders.length / this.itemsPerPage);
+        return Math.ceil(this.filteredReminders.length / this.itemsPerPage);
     }
 
     get pages(): number[] {

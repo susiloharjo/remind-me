@@ -3,7 +3,8 @@
   <div class="toolbar">
     <div class="search-bar">
       <i class="bi bi-search search-icon"></i>
-      <input type="text" placeholder="Search" class="search-input">
+      <input type="text" placeholder="Search" class="search-input" [ngModel]="searchTerm"
+        (ngModelChange)="searchTerm = $event; onSearch()">
     </div>
     <div class="actions-group">
       <button class="btn-action primary" (click)="onCreate()">Create</button>
@@ -59,7 +60,8 @@
   <!-- Pagination -->
   <div class="pagination-bar">
     <span class="showing-text">Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ (currentPage * itemsPerPage) >
-      reminders.length ? reminders.length : (currentPage * itemsPerPage) }} of {{ reminders.length }} results</span>
+      filteredReminders.length ? filteredReminders.length : (currentPage * itemsPerPage) }} of {{
+      filteredReminders.length }} results</span>
     <div class="pagination-controls">
       <button class="btn-page" [disabled]="currentPage === 1" (click)="prevPage()">Previous</button>
 
