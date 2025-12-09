@@ -7,10 +7,45 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: remind_me
-    ports:
-      - "5432:5432"
+    # Ports removed to not expose to host machine
+    # ports:
+    #   - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - remind-me-net
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: remind-me-backend
+    environment:
+      DATABASE_URL: postgresql://admin:password@postgres:5432/remind_me
+      PORT: 3000
+    ports:
+      - "3016:3000"
+    depends_on:
+      - postgres
+    networks:
+      - remind-me-net
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: remind-me-frontend
+    ports:
+      - "4206:80"
+    depends_on:
+      - backend
+    networks:
+      - remind-me-net
+    restart: always
 
 volumes:
   postgres_data:
+
+
+networks:
+  remind-me-net:
+
+

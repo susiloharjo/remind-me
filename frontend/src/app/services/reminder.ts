@@ -14,11 +14,8 @@ export interface Reminder {
 @Injectable({
   providedIn: 'root'
 })
-@Injectable({
-  providedIn: 'root'
-})
 export class ReminderService {
-  private apiUrl = 'http://localhost:3000/api/reminders';
+  private apiUrl = 'http://localhost:3016/api/reminders';
 
   constructor(private http: HttpClient) { }
 
