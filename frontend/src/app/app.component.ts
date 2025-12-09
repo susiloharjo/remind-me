@@ -1,20 +1,25 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './components/dashboard/dashboard';
 import { ReminderFormComponent } from './components/reminder-form/reminder-form';
 import { ImportComponent } from './components/import/import';
 import { ModalComponent } from './components/modal/modal';
-import { Reminder } from './services/reminder';
+import { NavbarComponent } from './components/navbar/navbar';
+import { Reminder, ReminderService } from './services/reminder';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, DashboardComponent, ReminderFormComponent, ImportComponent, ModalComponent],
+  imports: [RouterOutlet, CommonModule, DashboardComponent, ReminderFormComponent, ImportComponent, ModalComponent, NavbarComponent],
   template: `
+    <app-navbar 
+      [notificationCount]="notificationCount" 
+      [overdueReminders]="overdueReminders" 
+      (alertClicked)="onAlert()"
+      (reminderClicked)="onEditReminder($event)">
+    </app-navbar>
     <main>
-      <h1>Remind Me</h1>
-      
       <app-dashboard 
         (createClicked)="showCreateModal = true"
         (importClicked)="showImportModal = true"
@@ -40,18 +45,33 @@ import { Reminder } from './services/reminder';
     </main>
   `,
   styles: [`
-    main { padding: 40px; background-color: var(--background-bg); min-height: 100vh; }
+    main { padding: 100px 40px 40px 40px; background-color: var(--background-bg); min-height: 100vh; }
     h1 { color: var(--text-main); margin-bottom: 2rem; font-size: 2rem; }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'remind-me';
   showCreateModal = false;
   showEditModal = false;
   showImportModal = false;
   selectedReminder: Reminder | null = null;
 
+
   @ViewChild(DashboardComponent) dashboard!: DashboardComponent;
+
+  overdueReminders: Reminder[] = [];
+  get notificationCount(): number {
+    return this.overdueReminders.length;
+  }
+
+  constructor(
+    private reminderService: ReminderService,
+    private cd: ChangeDetectorRef
+  ) { }
+
+  ngOnInit() {
+    this.checkOverdue();
+  }
 
   onEditReminder(reminder: Reminder) {
     this.selectedReminder = reminder;
@@ -60,5 +80,29 @@ export class AppComponent {
 
   reloadDashboard() {
     this.dashboard.loadReminders();
+    this.checkOverdue(); // Re-check overdue status when data changes
+  }
+
+  onAlert() {
+    // Dropdown handled by Navbar component internal state for now
+  }
+
+  private checkOverdue() {
+    this.reminderService.getReminders().subscribe(reminders => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize 'now' to start of today
+
+      // Filter: Active AND Due Date is strictly BEFORE today
+      this.overdueReminders = reminders.filter(r => {
+        if (r.status !== 'ACTIVE') return false;
+
+        const due = new Date(r.due_date);
+        due.setHours(0, 0, 0, 0); // Normalize due date to ignore time
+
+        return due.getTime() < today.getTime();
+      });
+
+      this.cd.detectChanges(); // Force update
+    });
   }
 }

@@ -1,0 +1,166 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 60px;
+    background-color: #ffffff;
+    /* Hardcode white for opacity */
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.logo i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.btn-icon:hover {
+    color: var(--primary-color);
+}
+
+.badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: #ff3b30;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 10px;
+    min-width: 16px;
+    text-align: center;
+}
+
+.notification-container {
+    position: relative;
+}
+
+/* Fiori-inspired Dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 360px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1), 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-header {
+    padding: 16px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    font-family: '72', "Segoe UI", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #32363a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-content {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f7fa;
+    /* Fiori hover state */
+}
+
+.item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-title {
+    font-family: '72', "Segoe UI", Arial, sans-serif;
+    font-weight: 600;
+    color: #32363a;
+    font-size: 0.95rem;
+}
+
+.item-subtitle {
+    font-size: 0.8rem;
+    color: #6a6d70;
+}
+
+.item-date {
+    font-size: 0.75rem;
+    color: #bb0000;
+    /* Fiori Negative/Error color */
+    font-weight: 600;
+    background: #ffebeb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.empty-state {
+    font-size: 0.9rem;
+}
