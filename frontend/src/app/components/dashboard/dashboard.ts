@@ -99,9 +99,9 @@ export class DashboardComponent implements OnInit {
 
     toggleAll(event: any) {
         if (event.target.checked) {
-            this.reminders.forEach(r => this.selectedIds.add(r.id));
+            this.paginatedReminders.forEach(r => this.selectedIds.add(r.id));
         } else {
-            this.selectedIds.clear();
+            this.paginatedReminders.forEach(r => this.selectedIds.delete(r.id));
         }
     }
 
@@ -115,7 +115,8 @@ export class DashboardComponent implements OnInit {
     }
 
     get allSelected(): boolean {
-        return this.reminders.length > 0 && this.selectedIds.size === this.reminders.length;
+        return this.paginatedReminders.length > 0 &&
+            this.paginatedReminders.every(r => this.selectedIds.has(r.id));
     }
 
     deleteSelected() {
